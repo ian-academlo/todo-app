@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./styles/normalize.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>todo app</title>
+  </head>
+  <body>
+    <h1>Mi lista de tareas</h1>
+    <div class="container">
+      <div class="inputs">
+        <div class="text-inputs">
+          <div class="input-name">
+            <label for="name">Nombre de la tarea</label>
+            <input type="text" name="name" />
+          </div>
+
+          <div class="input-name">
+            <label for="description">Descripción de la tarea</label>
+            <input type="text" name="description" />
+          </div>
+        </div>
+        <div class="btn-c">
+          <button class="btn btn-primary">Agregar</button>
+        </div>
+      </div>
+
+      <div class="tasks-container"></div>
+    </div>
+  </body>
+  <script src="./app.js"></script>
+</html>

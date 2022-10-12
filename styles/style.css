@@ -1,0 +1,107 @@
+:root {
+  --bg: #333334;
+  --bg-socondary: #444444;
+  --primary: #f79600;
+}
+
+body {
+  font-family: "Ubuntu", sans-serif;
+  background-color: var(--bg);
+  color: white;
+}
+
+h1 {
+  font-size: 48px;
+  text-align: center;
+}
+
+h3 {
+  color: var(--primary);
+  font-size: 32px;
+  margin: 5px 0;
+}
+
+.container {
+  width: 60%;
+  margin: auto;
+}
+
+.inputs {
+  background-color: var(--bg-socondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.text-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.input-name {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+input {
+  border-radius: 7px;
+  outline: none;
+  border: 2px solid var(--primary);
+  padding: 5px;
+}
+
+label {
+  font-size: 12px;
+}
+
+.btn-c {
+  height: 20%;
+}
+
+.btn {
+  padding: 5px 15px;
+  border-radius: 20px;
+  outline: none;
+  background-color: white;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+  color: white;
+}
+
+.btn-complete {
+  color: green;
+  border: 1px solid green;
+}
+
+.btn-delete {
+  color: red;
+  border: 1px solid red;
+}
+
+/*  tasks */
+
+.tasks-container {
+  background-color: var(--bg-socondary);
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 2px solid var(--bg);
+}
+
+.complete {
+  text-decoration: line-through;
+}
+
+.hide {
+  display: none;
+}
