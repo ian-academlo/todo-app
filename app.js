@@ -65,7 +65,7 @@ function createTask() {
         <div class="task-buttons">
           <button class="btn btn-complete ${task.complete ? "hide" : ""}" id=${
       task.id
-    }>Competar</button>
+    }>Completar</button>
           <button class="btn btn-delete" id=${task.id}>Delete</button>
         </div>
       </div>`;
