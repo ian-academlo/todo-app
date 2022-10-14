@@ -8,62 +8,64 @@ const taskArea = document.querySelector(".tasks-container");
 // getItem obtiene una propiedad del local Storage y si es un []u{} tenemos que parsearlo con
 // JSON.parse(valor)
 
-let tasksArray = JSON.parse(localStorage.getItem("tasks")) ?? []; // devuelv e el primer v o el ultimo f
-// nullish coalesing ??
-// si el valor de la izquierda es null o undefined devuelve el valor de la derecha
-// si no ---> devuelve el valor de la izquierda
-createTask();
-let idCounter = 0;
+// https://todoemlo.onrender.com/todo/tasks
 
-// Event Delegation
-// asignar un identificador unico a cada tarea
+const url = "https://todoemlo.onrender.com/todo/tasks";
+
+getTasks();
 
 taskArea.addEventListener("click", (e) => {
   if (e.target.classList.contains("btn-delete")) {
+    // lo único que necesitamos para eliminar una tarea
+    // es el id
     const taskId = e.target.getAttribute("id");
-    // splice -- primero necesito encontrar la posición del elemento y liego aplicar splice
-    // con un filter
-    const newTasks = tasksArray.filter((task) => task.id !== Number(taskId));
-    tasksArray = [...newTasks];
-    createTask();
-    localStorage.setItem("tasks", JSON.stringify(tasksArray));
+    //const newTasks = tasksArray.filter((task) => task.id !== Number(taskId));
+    //tasksArray = [...newTasks];
+    //createTask();
+    deleteTask({ id: taskId });
   }
   if (e.target.classList.contains("btn-complete")) {
     const taskId = e.target.getAttribute("id");
-    // encontrar el indice del elemento que tenga el id que acabo de obtener
-    const index = tasksArray.findIndex((task) => task.id === Number(taskId));
-    // en el arreglo modifico la propiedad complete del elemento encontrado
-    tasksArray[index].complete = true;
-    createTask();
-    localStorage.setItem("tasks", JSON.stringify(tasksArray));
+    // const index = tasksArray.findIndex((task) => task.id === Number(taskId));
+    // tasksArray[index].complete = true;
+    // createTask();
+    updateTask(taskId);
   }
 });
 
 addButton.addEventListener("click", (e) => {
-  // console.log(
-  //   e.target.parentElement.previousElementSibling.firstElementChild
-  //     .lastElementChild.value
-  // );
   const title = taskTitle.value;
   const description = taskDescription.value;
-  console.log(title, description);
-  tasksArray.push({ title, description, complete: false, id: idCounter });
-  localStorage.setItem("tasks", JSON.stringify(tasksArray));
+
+  const data = { title, description, status: false };
+
+  if (title === "") {
+    alert("necesitas poner un titulo a tu tarea");
+  }
+
+  if (description === "") {
+    alert("necesitas agregar una descripción a la tarea");
+  }
+
+  if (title !== "" && description !== "") {
+    createNewTask(data);
+  }
+
+  // la nueva petición hay que hacerla cuando el servidor haya creado la nueva tarea
+
   clearInputs();
-  createTask();
-  idCounter++;
 });
 
-function createTask() {
-  const elements = tasksArray.map((task) => {
+function createTask(arr) {
+  const elements = arr.map((task) => {
     return `
       <div class="task-item">
         <div class="task-description">
-          <h3 class="${task.complete ? "complete" : ""}">${task.title}</h3>
+          <h3 class="${task.status ? "complete" : ""}">${task.title}</h3>
           <p>${task.description}</p>
         </div>
         <div class="task-buttons">
-          <button class="btn btn-complete ${task.complete ? "hide" : ""}" id=${
+          <button class="btn btn-complete ${task.status ? "hide" : ""}" id=${
       task.id
     }>Completar</button>
           <button class="btn btn-delete" id=${task.id}>Delete</button>
@@ -78,6 +80,49 @@ function clearInputs() {
   taskDescription.value = "";
 }
 
-localStorage.setItem("prueba", JSON.stringify({ propiedad: "sñadlkfhadsfak" }));
+function getTasks() {
+  fetch(url, { method: "GET" })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      createTask(data);
+    });
+}
+
+function createNewTask(data) {
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(() => getTasks());
+}
+
+function deleteTask(id) {
+  fetch(url, {
+    method: "DELETE",
+    body: JSON.stringify(id),
+    headers: {
+      "Content-type": "application/json",
+    },
+  }).then(() => getTasks());
+}
+
+// para el update necesitamos id de la tarea a actulizar y el valor a actualizar
+// { status: true }
+
+function updateTask(id) {
+  const data = { id, status: true };
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-type": "application/json",
+    },
+  }).then(() => getTasks());
+}
+
+// localStorage.setItem("prueba", JSON.stringify({ propiedad: "sñadlkfhadsfak" }));
 // valores primitivos
 // para enviar {} o [] usamos JSON.stringify(valor);
